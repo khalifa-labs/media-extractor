@@ -3,21 +3,12 @@ import subprocess
 import sys
 
 def show_banner():
-    # Clears the screen for a clean look
     os.system('cls' if os.name == 'nt' else 'clear')
-    
-    banner = """
-    ===============================================================
-    
-      _  ____  _     _     ___ _____  _      _     ____  ____ 
-     / \/  _ \/ \   / \   / _//  __/ / \  /|/ \   /  _ \/  _ \
-     | || / \| | |   | |   | |- |  \   | |\ ||| |   | / \|/ /  $
-     | || |-||| |_/\| |_/\| |  |  /_  | | \||| |_/\| |-||\_ \  
-     \_/\_/ \|\____/\____/\_/  \____\ \_/  \|\____/\_/ \|\____/
-                                                               
-                   ---  K H A L I F A   L A B S  ---
-              Fast, Bloatware-Free Media Downloader v1.0
-    ===============================================================
+    banner = r"""
+===============================================================
+               K H A L I F A   L A B S
+            Fast CLI Media Extractor v1.0
+===============================================================
     """
     print(banner)
 
@@ -46,7 +37,7 @@ def main():
         return
 
     print("\n---------------------------------------------------------------")
-    print("[*] Processing download via Khalifa Labs Media Engine...")
+    print("[*] Processing download via Khalifa Labs Engine...")
     print("---------------------------------------------------------------\n")
 
     if choice == '1':
