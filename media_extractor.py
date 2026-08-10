@@ -1,6 +1,8 @@
 import os
 import subprocess
 import sys
+import tkinter as tk
+from tkinter import filedialog
 
 def show_banner():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -22,17 +24,24 @@ def get_save_directory():
     print("\n--- Select Save Location ---")
     print(" [1] Downloads Folder")
     print(" [2] Desktop")
-    print(" [3] Custom Path")
+    print(" [3] Browse Folder (Opens Windows Explorer Popup)")
+    
     loc_choice = input("Select location (1-3) [Default = 1]: ").strip()
 
     home = os.path.expanduser("~")
     if loc_choice == '2':
         return os.path.join(home, "Desktop")
     elif loc_choice == '3':
-        custom_path = input("Enter custom folder path: ").strip()
-        if os.path.exists(custom_path):
-            return custom_path
-        print("[!] Path not found. Defaulting to Downloads folder.")
+        print("\n[*] Opening Windows folder picker window...")
+        root = tk.Tk()
+        root.withdraw()  # Hide main blank Tkinter window
+        root.attributes('-topmost', True)  # Bring popup window to front
+        selected_path = filedialog.askdirectory(title="Select Save Location")
+        root.destroy()
+        
+        if selected_path:
+            return selected_path
+        print("[!] No folder selected. Defaulting to Downloads folder.")
         return os.path.join(home, "Downloads")
     else:
         return os.path.join(home, "Downloads")
@@ -84,6 +93,8 @@ def main():
             fmt = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
 
         cmd_args = ["-f", fmt]
+    elif choice == '3':
+        cmd_args = []
 
     print("\n---------------------------------------------------------------")
     print(f"[*] Destination: {save_dir}")
