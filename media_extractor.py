@@ -18,17 +18,36 @@ def show_banner():
     """
     print(banner)
 
+def get_save_directory():
+    print("\n--- Select Save Location ---")
+    print(" [1] Downloads Folder")
+    print(" [2] Desktop")
+    print(" [3] Custom Path")
+    loc_choice = input("Select location (1-3) [Default = 1]: ").strip()
+
+    home = os.path.expanduser("~")
+    if loc_choice == '2':
+        return os.path.join(home, "Desktop")
+    elif loc_choice == '3':
+        custom_path = input("Enter custom folder path: ").strip()
+        if os.path.exists(custom_path):
+            return custom_path
+        print("[!] Path not found. Defaulting to Downloads folder.")
+        return os.path.join(home, "Downloads")
+    else:
+        return os.path.join(home, "Downloads")
+
 def main():
     show_banner()
     print(" Select Download Option:")
-    print(" [1] Best Quality MP3 Audio Only")
-    print(" [2] Best Quality MP4 Video (High Res)")
+    print(" [1] MP3 Audio Only")
+    print(" [2] MP4 Video (Choose Resolution/Quality)")
     print(" [3] Fast Default Video Download")
     print(" [4] Exit")
     print("---------------------------------------------------------------")
 
     choice = input("\nEnter choice (1-4): ").strip()
-    
+
     if choice == '4':
         print("\nExiting. Thanks for using Khalifa Labs tools!")
         sys.exit()
@@ -42,20 +61,41 @@ def main():
         print("\n[!] URL cannot be empty.")
         return
 
+    save_dir = get_save_directory()
+    cmd_args = []
+
+    if choice == '1':
+        cmd_args = ["-x", "--audio-format", "mp3", "--audio-quality", "0"]
+    elif choice == '2':
+        print("\n--- Select Video Quality ---")
+        print(" [1] Best Available (4K / 2K / 1080p)")
+        print(" [2] 1080p Max")
+        print(" [3] 720p Max")
+        print(" [4] 480p Max")
+        q_choice = input("Select quality (1-4) [Default = 1]: ").strip()
+
+        if q_choice == '2':
+            fmt = "bestvideo[height<=1080][ext=mp4]+bestaudio[ext=m4a]/best[height<=1080]"
+        elif q_choice == '3':
+            fmt = "bestvideo[height<=720][ext=mp4]+bestaudio[ext=m4a]/best[height<=720]"
+        elif q_choice == '4':
+            fmt = "bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480]"
+        else:
+            fmt = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
+
+        cmd_args = ["-f", fmt]
+
     print("\n---------------------------------------------------------------")
+    print(f"[*] Destination: {save_dir}")
     print("[*] Processing download via Khalifa Labs Engine...")
     print("---------------------------------------------------------------\n")
 
-    if choice == '1':
-        cmd = ["yt-dlp", "-x", "--audio-format", "mp3", "--audio-quality", "0", url]
-    elif choice == '2':
-        cmd = ["yt-dlp", "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best", url]
-    elif choice == '3':
-        cmd = ["yt-dlp", url]
+    full_cmd = ["yt-dlp", "-P", save_dir] + cmd_args + [url]
 
     try:
-        subprocess.run(cmd, check=True)
+        subprocess.run(full_cmd, check=True)
         print("\n[✔] Download completed successfully!")
+        print(f"[✔] File saved to: {save_dir}")
     except FileNotFoundError:
         print("\n[!] Error: 'yt-dlp' is not installed or not in your PATH.")
         print("    Run: 'winget install yt-dlp' in Command Prompt first.")
