@@ -58,7 +58,7 @@ def main():
         print(f"\n  {WHITE}{BOLD}Select Action:{RESET}")
         print(f"   {ACCENT}1{RESET} {MUTED}•{RESET} {WHITE}MP3 Audio Only{RESET} {MUTED}(High Bitrate){RESET}")
         print(f"   {ACCENT}2{RESET} {MUTED}•{RESET} {WHITE}MP4 Video{RESET} {MUTED}(Custom Quality / Resolution){RESET}")
-        print(f"   {ACCENT}3{RESET} {MUTED}•{RESET} {WHITE}Fast Default Download{RESET}")
+        print(f"   {ACCENT}3{RESET} {MUTED}•{RESET} {WHITE}Fast Default Video Download{RESET}")
         print(f"   {ACCENT}4{RESET} {MUTED}•{RESET} {MUTED}Exit{RESET}")
         print(f"  {MUTED}─────────────────────────────────────────────────────────────{RESET}")
 
