@@ -118,11 +118,10 @@ def main():
         print(f"  {ACCENT}⚙{RESET}  {WHITE}Initializing Khalifa Labs Engine...{RESET}")
         print(f"  {MUTED}─────────────────────────────────────────────────────────────{RESET}\n")
 
-        # --- KHALIFA LABS ANTI-BOT BYPASS ---
+        # --- KHALIFA LABS ANTI-BOT ENGINE ---
         full_cmd = [
             "yt-dlp", 
-            "--cookies-from-browser", "chrome", 
-            "--extractor-args", "youtube:player_client=android",
+            "--extractor-args", "youtube:player_client=ios,mweb,tv",
             "-P", save_dir
         ] + cmd_args + [url]
 
