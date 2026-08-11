@@ -118,7 +118,13 @@ def main():
         print(f"  {ACCENT}⚙{RESET}  {WHITE}Initializing Khalifa Labs Engine...{RESET}")
         print(f"  {MUTED}─────────────────────────────────────────────────────────────{RESET}\n")
 
-        full_cmd = ["yt-dlp", "-P", save_dir] + cmd_args + [url]
+        # --- KHALIFA LABS ANTI-BOT BYPASS ---
+        full_cmd = [
+            "yt-dlp", 
+            "--cookies-from-browser", "chrome", 
+            "--extractor-args", "youtube:player_client=android",
+            "-P", save_dir
+        ] + cmd_args + [url]
 
         try:
             subprocess.run(full_cmd, check=True)
